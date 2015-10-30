@@ -4,8 +4,8 @@
 var operators = ["Add", "Subtract", "Multiply", "Divide"];
 
 function doMath(data){
-    var num1 = data.first;
-    var num2 = data.second;
+    var num1 = data.num1;
+    var num2 = data.num2;
     var operator = data.type;
     var num;
 

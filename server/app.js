@@ -4,7 +4,7 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-var doMath = require('./public/modules/doSomeMath');
+var doMath = require('./modules/doSomeMath');
 
 var app = express();
 
