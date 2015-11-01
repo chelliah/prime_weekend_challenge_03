@@ -38,6 +38,7 @@ function enable(){
     });
 }
 
+//creates new object and resets DOM value to 0
 function reset(){
     numObject = new createObject();
     clearInputDom();
@@ -50,6 +51,7 @@ function createObject(){
 }
 
 
+//Object Editor Methods
 function addOperator(operator){
     console.log(operator);
     numObject['operator'] = operator;
