@@ -2,56 +2,47 @@
  * Created by aronthomas on 10/30/15.
  */
 var numObject;
-var operators = ["Add", "Subtract", "Multiply", "Divide"];
 
 $(document).ready(function(){
     enable();
 });
 
+//ENABLE STARTS THE CALCULATOR FUNCTIONALITY
 function enable(){
     reset();
-
-    $('.numbers > .num').on('click',function(){
-        var number = $(this).data('type');
-        if ('operator' in numObject){
-            numObject.num2.push(number);
-            appendDom(numObject.num2);
-        }else{
-            numObject.num1.push(number);
-            appendDom(numObject.num1);
-        }
+    //number buttons
+    $(".num").on('click',function(){
+        joinNumber(this);
     });
 
-    //OPERATORS
-    $('.operators > .operator').on('click',function(){
+    //operators
+    $('.operator').on('click',function(){
         var operator = $(this).data('type');
         addOperator(operator);
     });
 
     //CLEAR BUTTON
-    $('.clear > .btn').on('click',reset);
+    $('.clear').on('click',reset);
 
     //EQUALS
-    $('#equals').on('click',function(){
-        clickPostData();
-        numObject = new createObject();
-    });
+    $('#equals').on('click',clickPostData);
 }
 
-//creates new object and resets DOM value to 0
+//RESET METHOD creates new object and resets DOM value to 0
 function reset(){
-    numObject = new createObject();
+    numObject = new CreateObject();
     clearInputDom();
 }
 
 //OBJECT CONSTRUCTOR METHOD
-function createObject(){
+function CreateObject(){
     this.num1 = [];
     this.num2 = [];
 }
 
 
-//Object Editor Methods
+
+//OBJECT EDITOR METHODS
 function addOperator(operator){
     console.log(operator);
     numObject['operator'] = operator;
@@ -62,7 +53,19 @@ function prepareData(){
     numObject.num2 = Number.parseFloat(numObject.num2.join(''));
 }
 
-//AJAX CALLS
+//Compiles first or second number by pushing the value of each button press to an array
+function joinNumber(context){
+    var number = $(context).data('type');
+    if ('operator' in numObject){
+        numObject.num2.push(number);
+        appendDom(numObject.num2);
+    }else{
+        numObject.num1.push(number);
+        appendDom(numObject.num1);
+    }
+}
+
+//AJAX CALL
 function clickPostData(){
     console.log(numObject);
     $.ajax({
@@ -75,12 +78,12 @@ function clickPostData(){
             appendDom(data.result);
         }
     });
+    numObject = new CreateObject();
 
 }
 
 ///DOM MANIPULATION FUNCTIONS
 function appendDom(number){
-    //console.log(typeof number);
     if(typeof number == "object"){
         number = number.join('')
     }
