@@ -13,12 +13,40 @@ app.set('port', process.env.PORT || 5000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({expanded:true}));
 
-app.post('/data', function(req,res){
+//app.post('/data', function(req,res){
+//    var data = req.body;
+//    var num = doMath(data);
+//    res.send({"result" : num});
+//    //res.send(num);
+//    console.log(num);
+//});
+
+app.post('/Add', function(req,res){
+    console.log('add');
     var data = req.body;
     var num = doMath(data);
     res.send({"result" : num});
-    //res.send(num);
-    console.log(num);
+});
+
+app.post('/Subtract', function(req,res){
+    console.log('subtract');
+    var data = req.body;
+    var num = doMath(data);
+    res.send({"result" : num});
+});
+
+app.post('/Multiply', function(req,res){
+    console.log('multiply');
+    var data = req.body;
+    var num = doMath(data);
+    res.send({"result" : num});
+});
+
+app.post('/Divide', function(req,res){
+    console.log('divide');
+    var data = req.body;
+    var num = doMath(data);
+    res.send({"result" : num});
 });
 
 app.get('/*', function(req,res){

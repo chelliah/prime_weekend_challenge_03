@@ -1,0 +1,11 @@
+.container {
+    width: 700px;
+}
+.operators > .btn{
+    font-size: 25px;
+}
+
+.inputNumber {
+    text-align: right;
+    min-width:400px;
+}

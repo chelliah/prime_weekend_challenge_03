@@ -2,39 +2,45 @@
  * Created by aronthomas on 10/30/15.
  */
 var numObject;
-var displayString;
+var operators = ["Add", "Subtract", "Multiply", "Divide"];
 
 $(document).ready(function(){
-    init();
+    enable();
 });
 
-function init(){
-    numObject = new createObject();
+function enable(){
+    reset();
 
-    $('.operators > .btn').on('click',function(){
-        var data = $(this).data('type');
-        addOperator(data);
-        //clickPostData(data);
-    });
-
-    $('.clear > .btn').on('click',clear);
-
-    $('#equals').on('click',function(){
-       clickPostData();
-    });
-
-    $('.numbers > .btn').on('click',function(){
+    $('.numbers > .num').on('click',function(){
         var number = $(this).data('type');
-        if ('type' in numObject){
+        if ('operator' in numObject){
             numObject.num2.push(number);
-            //console.log("num2 is:", numObject.num2);
-            appendInputDom(numObject.num2);
+            appendDom(numObject.num2);
         }else{
             numObject.num1.push(number);
-            //console.log("num1 is:", numObject.num1);
-            appendInputDom(numObject.num1);
+            appendDom(numObject.num1);
         }
-    })
+    });
+
+    //OPERATORS
+    $('.operators > .operator').on('click',function(){
+        var operator = $(this).data('type');
+        addOperator(operator);
+    });
+
+    //CLEAR BUTTON
+    $('.clear > .btn').on('click',reset);
+
+    //EQUALS
+    $('#equals').on('click',function(){
+        clickPostData();
+        numObject = new createObject();
+    });
+}
+
+function reset(){
+    numObject = new createObject();
+    clearInputDom();
 }
 
 //OBJECT CONSTRUCTOR METHOD
@@ -43,58 +49,57 @@ function createObject(){
     this.num2 = [];
 }
 
-//clears inputs
-function clear(){
-    $('#input').find("input[type=number]").val("");
-    $('.result').text('');
-    clearInputDom();
-    numObject = new createObject();
-}
 
-function addOperator(type){
-    numObject['type'] = type;
-    clearInputDom();
+function addOperator(operator){
+    console.log(operator);
+    numObject['operator'] = operator;
 }
 
 function prepareData(){
-    numObject.num1 = parseInt(numObject.num1.join(''));
-    numObject.num2 = parseInt(numObject.num2.join(''));
+    numObject.num1 = Number.parseFloat(numObject.num1.join(''));
+    numObject.num2 = Number.parseFloat(numObject.num2.join(''));
 }
 
 //AJAX CALLS
 function clickPostData(){
-    //numObject['type'] = type;
-    //var values = {};
-    //$.each($("#input").serializeArray(),function(i,field){
-    //    values[field.name] = field.value;
-    //    values["type"] = type;
-    //});
-    //console.log(values);
+    var operation;
     prepareData();
     console.log(numObject);
+    switch(numObject.operator){
+        case operators[0]:
+            operation = operators[0];
+            break;
+        case operators[1]:
+            operation = operators[1];
+            break;
+        case operators[2]:
+            operation = operators[2];
+            break;
+        case operators[3]:
+            operation = operators[3];
+            break;
+    }
     $.ajax({
         type: "POST",
-        url: "/data",
+        url: "/" + operation,
         data: numObject,
         success: function(data){
             console.log(data);
-            clear();
             appendDom(data.result);
         }
     });
+
 }
 
 ///DOM MANIPULATION FUNCTIONS
 function appendDom(number){
-    $(".result").text(number);
+    //console.log(typeof number);
+    if(typeof number == "object"){
+        number = number.join('')
+    }
     $('.inputNumber').text(number);
 }
 
-function appendInputDom(number){
-    console.log(number);
-    $(".inputNumber").text(number.join(''));
-}
-
 function clearInputDom(){
-    $(".inputNumber").text('');
+    $(".inputNumber").text('0');
 }
