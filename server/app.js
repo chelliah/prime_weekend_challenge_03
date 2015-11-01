@@ -2,9 +2,7 @@
  * Created by aronthomas on 10/30/15.
  */
 var express = require('express');
-var path = require('path');
 var bodyParser = require('body-parser');
-//var doMath = require('./modules/doSomeMath');
 var app = express();
 
 var index = require('./routes/index.js');

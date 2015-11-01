@@ -64,27 +64,12 @@ function prepareData(){
 
 //AJAX CALLS
 function clickPostData(){
-    var operation;
-    prepareData();
     console.log(numObject);
-    switch(numObject.operator){
-        case operators[0]:
-            operation = operators[0];
-            break;
-        case operators[1]:
-            operation = operators[1];
-            break;
-        case operators[2]:
-            operation = operators[2];
-            break;
-        case operators[3]:
-            operation = operators[3];
-            break;
-    }
     $.ajax({
         type: "POST",
-        url: "/" + operation,
+        url: "/" + numObject.operator,
         data: numObject,
+        beforeSend: prepareData(),
         success: function(data){
             console.log(data);
             appendDom(data.result);
